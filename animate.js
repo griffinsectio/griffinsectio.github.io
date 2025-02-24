@@ -1,6 +1,7 @@
 // Select all images that should animate
 const animatedImages = document.querySelectorAll('.animated-img');
 const details = document.querySelectorAll(".detail");
+const profile = document.querySelectorAll("#profile");
 
 const elementObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -21,3 +22,6 @@ details.forEach((detail) => {
     elementObserver.observe(detail);
 })
 
+profile.forEach((e) => {
+    elementObserver.observe(e);
+});

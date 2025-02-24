@@ -9,6 +9,8 @@ html {
     overflow-x:hidden;
     overflow-y:auto;
     scroll-behavior: smooth;
+    background: linear-gradient(to right, #ffe3e3, #fdefef);
+
     /* enables smooth scroll for anchor links */
 }
 
@@ -45,6 +47,62 @@ html {
     height: 95%; /* Full height */
 }
 
+#profile {
+    opacity: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    /* border-style: solid;
+    border-width: 1px; */
+
+    transform: scale(0.9);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+#profile.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#title h1 {
+    font-size: 3rem;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.25rem;
+}
+
+#profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: -4px 0 10px rgb(255, 166, 166), 4px 0 10px rgb(255, 230, 230);
+    box-sizing: border-box;
+
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+    width: 25%;
+    height: 75vh;
+}
+
+#biodata-container {
+    justify-content: left;
+}
+
+#profile .portrait {
+    width: auto;
+    height: auto;
+    max-width: 20vw;
+    max-height: 20vh;
+    border-radius: 50%;
+}
+
+#profile .bottom {
+
+}
+
 /* Hero Section Styles */
 .hero {
     height: 100vh;
@@ -67,7 +125,8 @@ html {
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: #ce2525;
+    /* background: #ce2525; */
+    background: linear-gradient(to right, #ce2525, #fa8e8e);
 }
 
 .hero .lower {
@@ -79,6 +138,8 @@ html {
     align-items: center;
     text-align: center;
     background: #f8f5f5;
+    background: linear-gradient(to right, #f8f5f5, #dfdfdf);
+
 }
 
 .expanding-div {
@@ -122,12 +183,12 @@ html {
     transform: scale(1);
 }
 
-.scroll-arrow {
+/* .scroll-arrow {
     font-size: 3rem;
     color: #333;
     text-decoration: none;
     animation: bounce 2s infinite;
-}
+} */
 
 /* Simple bounce animation for the arrow */
 @keyframes bounce {
@@ -161,9 +222,9 @@ html {
     /* display: block; */
     /* margin: 0 2rem; */
     width: auto;
-    height: 95%;
-    max-width: 95%;
-    max-height: 95%;
+    height: 90%;
+    max-width: 90%;
+    max-height: 90%;
     border-radius: 5%;
     object-fit: contain;
 
