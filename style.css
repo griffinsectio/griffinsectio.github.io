@@ -1,0 +1,195 @@
+body,
+html {
+    width: 100vw;
+    width: 100vh;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    scroll-snap-type: y mandatory;
+    overflow-x:hidden;
+    overflow-y:auto;
+    scroll-behavior: smooth;
+    /* enables smooth scroll for anchor links */
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* padding-top: 5rem; */
+}
+
+.left, .right {
+    flex: 1; /* Take equal space */
+    /* padding: 20px; */
+    text-align: center;
+}
+
+.left {
+    flex: 1;
+    display: flex; /* Makes it a flex container */
+    justify-content: center; /* Centers image horizontally */
+    align-items: center; /* Centers image vertically */
+    overflow: hidden; /* Prevents overflow */
+    height: 100%; /* Ensures it fills the parent */
+}
+
+.divider {
+    width: 2px; /* Thickness of divider */
+    background-color: #333; /* Color of divider */
+    height: 95%; /* Full height */
+}
+
+/* Hero Section Styles */
+.hero {
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #f5f5f5;
+    text-align: center;
+    /* overflow-y: hidden; */
+}
+
+.hero .upper {
+    height: 50vh;
+    /* full viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: #ce2525;
+}
+
+.hero .lower {
+    height: 50vh;
+    /* full viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: #f8f5f5;
+}
+
+.expanding-div {
+    width: 0;
+    animation: expand 1s ease-in-out forwards;
+}
+
+@keyframes expand {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100vw;
+    }
+}
+
+.upper .hero-text {
+    font-size: 2.5rem;
+    margin-bottom: 1.25rem;
+    /* was 20px */
+    color: #ffffff;
+
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.lower .hero-text {
+    font-size: 2.5rem;
+    margin-bottom: 1.25rem;
+    /* was 20px */
+    color: #ce2525;
+
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.hero-text.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.scroll-arrow {
+    font-size: 3rem;
+    color: #333;
+    text-decoration: none;
+    animation: bounce 2s infinite;
+}
+
+/* Simple bounce animation for the arrow */
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(0.625rem);
+        /* was 10px */
+    }
+
+    60% {
+        transform: translateY(0.3125rem);
+        /* was 5px */
+    }
+}
+
+.title {
+    margin-bottom: 5rem;
+    font-size: 3rem;
+}
+
+/* This rule ensures the image scales responsively */
+.animated-img {
+    /* display: block; */
+    /* margin: 0 2rem; */
+    width: auto;
+    height: 95%;
+    max-width: 95%;
+    max-height: 95%;
+    border-radius: 5%;
+    object-fit: contain;
+
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* When the image is in view, we add the "visible" class */
+.animated-img.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.detail {
+    opacity: 0;
+    width: 100vh;
+    transform: translateY(1.25rem);
+    /* margin: 2rem auto; */
+    font-family: 'Times New Roman', Times, serif;
+    padding: 0 1rem;
+    font-size: 1.2rem;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.detail.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
