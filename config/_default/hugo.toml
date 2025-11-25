@@ -1,0 +1,8 @@
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
+
+baseURL = 'https://griffinsectio.github.io/'
+languageCode = 'en-us'
+title = "griffinsectio's notebook"
+mainSections = ["notes", "writeups"]

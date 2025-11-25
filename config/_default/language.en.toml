@@ -1,0 +1,11 @@
+title = "Griffin's notebook"
+
+[params.author]
+name = "Griffin Sectio"
+image = "img/author.jpg"
+headline = "A software engineer"
+bio = "A software engineer particularly interested in low-level programming and cybersecurity"
+# links = [
+#   { twitter = "https://twitter.com/username" }
+# ]
+
