@@ -1,0 +1,626 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFFFFF" />
+  
+  <title>I/O Structures &middot; Griffin&#39;s notebook</title>
+    <meta name="title" content="I/O Structures &middot; Griffin&#39;s notebook" />
+  
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="//localhost:1313/js/appearance.min.8a082f81b27f3cb2ee528df0b0bdc39787034cf2cc34d4669fbc9977c929023c.js"
+    integrity="sha256-iggvgbJ/PLLuUo3wsL3Dl4cDTPLMNNRmn7yZd8kpAjw="
+  ></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="//localhost:1313/css/main.bundle.min.a645f3fa02b2ca20e7ef61b236048d95cc9bc2e5b2faf1f0ac0aa85431187c1c.css"
+    integrity="sha256-pkXz&#43;gKyyiDn72GyNgSNlcybwuWy&#43;vHwrAqoVDEYfBw="
+  />
+  
+  
+  
+  
+  
+  
+  
+  <meta
+    name="description"
+    content="
+      
+        The following is how the _IO_FILE struct constructed along with the offset for each field:
+struct _IO_FILE
+{
+    /* 0x00 */ char                 *_flags;
+    /* 0x08 */ char                 *_IO_read_ptr;
+    /* 0x10 */ char                 *_IO_read_end;
+    /* 0x18 */ char                 *_IO_read_base;
+    /* 0x20 */ char                 *_IO_write_base;
+    /* 0x28 */ char                 *_IO_write_ptr;
+    /* 0x30 */ char                 *_IO_write_end;
+    /* 0x38 */ char                 *_IO_buf_base;
+    /* 0x40 */ char                 *_IO_buf_end;
+    /* 0x48 */ char                 *_IO_save_base;
+    /* 0x50 */ char                 *_IO_backup_base;
+    /* 0x58 */ char                 *_IO_save_end;
+    /* 0x60 */ struct _IO_marker    *_markers;
+    /* 0x68 */ struct _IO_FILE      *_chain;
+    /* 0x70 */ int                  _fileno;
+    /* 0x74 */ int                  _flags2;
+    /* 0x78 */ _off_t               _old_offset;
+    /* 0x80 */ unsigned short       _cur_column;
+    /* 0x82 */ signed char          _vtable_offset;
+    /* 0x83 */ char                 _shortbuf[1];
+    /* 0x88 */ _IO_lock_t           _lock;
+    /* 0x90 */ __off64_t            _offset;
+    /* 0x98 */ struct _IO_codecvt   _codecvt;
+    /* 0xa0 */ struct _IO_wide_data _wide_data;
+    /* 0xa8 */ struct _IO_FILE      _freeres_list;
+    /* 0xb0 */ void                 *_freeres_buf;
+    /* 0xb8 */ size_t               __pad5;
+    /* 0xc0 */ int                  _mode;
+    /* 0xc4 */ char                 _unused2[20];
+_IO_FILE_plus is just _IO_FILE struct with vtable field:
+      
+    "
+  />
+  
+  
+  
+  
+    <link rel="canonical" href="//localhost:1313/notes/fsop/_io_file-struct/" />
+  
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="//localhost:1313/notes/fsop/_io_file-struct/">
+  <meta property="og:site_name" content="Griffin&#39;s notebook">
+  <meta property="og:title" content="I/O Structures">
+  <meta property="og:description" content="The following is how the _IO_FILE struct constructed along with the offset for each field:
+struct _IO_FILE { /* 0x00 */ char *_flags; /* 0x08 */ char *_IO_read_ptr; /* 0x10 */ char *_IO_read_end; /* 0x18 */ char *_IO_read_base; /* 0x20 */ char *_IO_write_base; /* 0x28 */ char *_IO_write_ptr; /* 0x30 */ char *_IO_write_end; /* 0x38 */ char *_IO_buf_base; /* 0x40 */ char *_IO_buf_end; /* 0x48 */ char *_IO_save_base; /* 0x50 */ char *_IO_backup_base; /* 0x58 */ char *_IO_save_end; /* 0x60 */ struct _IO_marker *_markers; /* 0x68 */ struct _IO_FILE *_chain; /* 0x70 */ int _fileno; /* 0x74 */ int _flags2; /* 0x78 */ _off_t _old_offset; /* 0x80 */ unsigned short _cur_column; /* 0x82 */ signed char _vtable_offset; /* 0x83 */ char _shortbuf[1]; /* 0x88 */ _IO_lock_t _lock; /* 0x90 */ __off64_t _offset; /* 0x98 */ struct _IO_codecvt _codecvt; /* 0xa0 */ struct _IO_wide_data _wide_data; /* 0xa8 */ struct _IO_FILE _freeres_list; /* 0xb0 */ void *_freeres_buf; /* 0xb8 */ size_t __pad5; /* 0xc0 */ int _mode; /* 0xc4 */ char _unused2[20]; _IO_FILE_plus is just _IO_FILE struct with vtable field:">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="notes">
+    <meta property="article:published_time" content="2026-02-20T03:06:19+07:00">
+    <meta property="article:modified_time" content="2026-02-20T03:06:19+07:00">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="I/O Structures">
+  <meta name="twitter:description" content="The following is how the _IO_FILE struct constructed along with the offset for each field:
+struct _IO_FILE { /* 0x00 */ char *_flags; /* 0x08 */ char *_IO_read_ptr; /* 0x10 */ char *_IO_read_end; /* 0x18 */ char *_IO_read_base; /* 0x20 */ char *_IO_write_base; /* 0x28 */ char *_IO_write_ptr; /* 0x30 */ char *_IO_write_end; /* 0x38 */ char *_IO_buf_base; /* 0x40 */ char *_IO_buf_end; /* 0x48 */ char *_IO_save_base; /* 0x50 */ char *_IO_backup_base; /* 0x58 */ char *_IO_save_end; /* 0x60 */ struct _IO_marker *_markers; /* 0x68 */ struct _IO_FILE *_chain; /* 0x70 */ int _fileno; /* 0x74 */ int _flags2; /* 0x78 */ _off_t _old_offset; /* 0x80 */ unsigned short _cur_column; /* 0x82 */ signed char _vtable_offset; /* 0x83 */ char _shortbuf[1]; /* 0x88 */ _IO_lock_t _lock; /* 0x90 */ __off64_t _offset; /* 0x98 */ struct _IO_codecvt _codecvt; /* 0xa0 */ struct _IO_wide_data _wide_data; /* 0xa8 */ struct _IO_FILE _freeres_list; /* 0xb0 */ void *_freeres_buf; /* 0xb8 */ size_t __pad5; /* 0xc0 */ int _mode; /* 0xc4 */ char _unused2[20]; _IO_FILE_plus is just _IO_FILE struct with vtable field:">
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Notes",
+    "name": "I\/O Structures",
+    "headline": "I\/O Structures",
+    
+    "abstract": "\u003cp\u003eThe following is how the \u003ccode\u003e_IO_FILE\u003c\/code\u003e struct constructed along with the offset for each field:\u003c\/p\u003e\n\u003cdiv class=\u0022highlight\u0022\u003e\u003cpre tabindex=\u00220\u0022 style=\u0022color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;\u0022\u003e\u003ccode class=\u0022language-c\u0022 data-lang=\u0022c\u0022\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e\u003cspan style=\u0022color:#66d9ef\u0022\u003estruct\u003c\/span\u003e _IO_FILE\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e{\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x00 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e                 \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_flags;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x08 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e                 \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_IO_read_ptr;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x10 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e                 \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_IO_read_end;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x18 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e                 \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_IO_read_base;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x20 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e                 \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_IO_write_base;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x28 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e                 \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_IO_write_ptr;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x30 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e                 \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_IO_write_end;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x38 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e                 \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_IO_buf_base;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x40 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e                 \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_IO_buf_end;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x48 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e                 \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_IO_save_base;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x50 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e                 \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_IO_backup_base;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x58 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e                 \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_IO_save_end;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x60 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003estruct\u003c\/span\u003e _IO_marker    \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_markers;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x68 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003estruct\u003c\/span\u003e _IO_FILE      \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_chain;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x70 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003eint\u003c\/span\u003e                  _fileno;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x74 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003eint\u003c\/span\u003e                  _flags2;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x78 *\/\u003c\/span\u003e _off_t               _old_offset;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x80 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003eunsigned\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003eshort\u003c\/span\u003e       _cur_column;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x82 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003esigned\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e          _vtable_offset;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x83 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e                 _shortbuf[\u003cspan style=\u0022color:#ae81ff\u0022\u003e1\u003c\/span\u003e];\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x88 *\/\u003c\/span\u003e _IO_lock_t           _lock;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x90 *\/\u003c\/span\u003e __off64_t            _offset;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0x98 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003estruct\u003c\/span\u003e _IO_codecvt   _codecvt;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0xa0 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003estruct\u003c\/span\u003e _IO_wide_data _wide_data;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0xa8 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003estruct\u003c\/span\u003e _IO_FILE      _freeres_list;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0xb0 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003evoid\u003c\/span\u003e                 \u003cspan style=\u0022color:#f92672\u0022\u003e*\u003c\/span\u003e_freeres_buf;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0xb8 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003esize_t\u003c\/span\u003e               __pad5;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0xc0 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003eint\u003c\/span\u003e                  _mode;\n\u003c\/span\u003e\u003c\/span\u003e\u003cspan style=\u0022display:flex;\u0022\u003e\u003cspan\u003e    \u003cspan style=\u0022color:#75715e\u0022\u003e\/* 0xc4 *\/\u003c\/span\u003e \u003cspan style=\u0022color:#66d9ef\u0022\u003echar\u003c\/span\u003e                 _unused2[\u003cspan style=\u0022color:#ae81ff\u0022\u003e20\u003c\/span\u003e];\n\u003c\/span\u003e\u003c\/span\u003e\u003c\/code\u003e\u003c\/pre\u003e\u003c\/div\u003e\u003cp\u003e\u003ccode\u003e_IO_FILE_plus\u003c\/code\u003e is just \u003ccode\u003e_IO_FILE\u003c\/code\u003e struct with \u003ccode\u003evtable\u003c\/code\u003e field:\u003c\/p\u003e",
+    "inLanguage": "en",
+    "url" : "\/\/localhost:1313\/notes\/fsop\/_io_file-struct\/",
+    "author" : {
+      "@type": "Person",
+      "name": "Griffin Sectio"
+    },
+    "copyrightYear": "2026",
+    "dateCreated": "2026-02-20T03:06:19\u002b07:00",
+    "datePublished": "2026-02-20T03:06:19\u002b07:00",
+    
+    "dateModified": "2026-02-20T03:06:19\u002b07:00",
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "436"
+  }
+  </script>
+    
+    <script type="application/ld+json">
+    {
+   "@context": "https://schema.org",
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+     {
+       "@type": "ListItem",
+       "item": "//localhost:1313/",
+       "name": "",
+       "position": 1
+     },
+     {
+       "@type": "ListItem",
+       "item": "//localhost:1313/notes/",
+       "name": "Notes",
+       "position": 2
+     },
+     {
+       "@type": "ListItem",
+       "name": "I O Structures",
+       "position": 3
+     }
+   ]
+ }
+  </script>
+
+  
+  
+    <meta name="author" content="Griffin Sectio" />
+  
+  
+  
+  
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+</head>
+<body
+    class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"
+  >
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content"
+        ><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span
+        >Skip to main content</a
+      >
+    </div>
+    
+    
+      <header class="py-6 font-semibold text-neutral-900 dark:text-neutral sm:py-10 print:hidden">
+  <nav class="flex items-start justify-between sm:items-center">
+    
+    <div class="flex flex-row items-center">
+      
+  <a
+    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
+    rel="me"
+    href="/"
+    >Griffin&rsquo;s notebook</a
+  >
+
+    </div>
+    
+    
+      <ul class="flex list-none flex-col text-end sm:flex-row">
+        
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/notes/"
+                  title="Notes"
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Notes</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/writeups/"
+                  title="Writeups"
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Writeups</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="https://github.com/jpanther/congo"
+                  title=""
+                  target="_blank"
+                  >
+                    <span
+                      class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
+                    ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                
+                
+              
+            </li>
+          
+          
+        
+      </ul>
+    
+  </nav>
+</header>
+
+    
+    <div class="relative flex grow flex-col">
+      <main id="main-content" class="grow">
+        
+  <article>
+    <header class="max-w-prose">
+      
+      <h1 class="mb-8 mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        I/O Structures
+      </h1>
+      
+        <div class="mb-10 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+          
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+    
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2026-02-20 03:06:19 &#43;0700 &#43;07">20 February 2026</time><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">3 mins</span>
+    
+
+    
+    
+      <span class="ps-2"><span class="flex">
+  <span
+    class="ms-1 rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400"
+  >
+    Draft
+  </span>
+</span>
+</span>
+    
+  </div>
+
+  
+  
+
+
+        </div>
+      
+      
+    </header>
+    <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
+      
+      <div class="min-h-0 min-w-0 max-w-prose grow">
+        <p>The following is how the <code>_IO_FILE</code> struct constructed along with the offset for each field:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> _IO_FILE
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x00 */</span> <span style="color:#66d9ef">char</span>                 <span style="color:#f92672">*</span>_flags;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x08 */</span> <span style="color:#66d9ef">char</span>                 <span style="color:#f92672">*</span>_IO_read_ptr;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x10 */</span> <span style="color:#66d9ef">char</span>                 <span style="color:#f92672">*</span>_IO_read_end;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x18 */</span> <span style="color:#66d9ef">char</span>                 <span style="color:#f92672">*</span>_IO_read_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x20 */</span> <span style="color:#66d9ef">char</span>                 <span style="color:#f92672">*</span>_IO_write_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x28 */</span> <span style="color:#66d9ef">char</span>                 <span style="color:#f92672">*</span>_IO_write_ptr;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x30 */</span> <span style="color:#66d9ef">char</span>                 <span style="color:#f92672">*</span>_IO_write_end;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x38 */</span> <span style="color:#66d9ef">char</span>                 <span style="color:#f92672">*</span>_IO_buf_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x40 */</span> <span style="color:#66d9ef">char</span>                 <span style="color:#f92672">*</span>_IO_buf_end;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x48 */</span> <span style="color:#66d9ef">char</span>                 <span style="color:#f92672">*</span>_IO_save_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x50 */</span> <span style="color:#66d9ef">char</span>                 <span style="color:#f92672">*</span>_IO_backup_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x58 */</span> <span style="color:#66d9ef">char</span>                 <span style="color:#f92672">*</span>_IO_save_end;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x60 */</span> <span style="color:#66d9ef">struct</span> _IO_marker    <span style="color:#f92672">*</span>_markers;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x68 */</span> <span style="color:#66d9ef">struct</span> _IO_FILE      <span style="color:#f92672">*</span>_chain;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x70 */</span> <span style="color:#66d9ef">int</span>                  _fileno;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x74 */</span> <span style="color:#66d9ef">int</span>                  _flags2;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x78 */</span> _off_t               _old_offset;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x80 */</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">short</span>       _cur_column;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x82 */</span> <span style="color:#66d9ef">signed</span> <span style="color:#66d9ef">char</span>          _vtable_offset;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x83 */</span> <span style="color:#66d9ef">char</span>                 _shortbuf[<span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x88 */</span> _IO_lock_t           _lock;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x90 */</span> __off64_t            _offset;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x98 */</span> <span style="color:#66d9ef">struct</span> _IO_codecvt   _codecvt;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xa0 */</span> <span style="color:#66d9ef">struct</span> _IO_wide_data _wide_data;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xa8 */</span> <span style="color:#66d9ef">struct</span> _IO_FILE      _freeres_list;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xb0 */</span> <span style="color:#66d9ef">void</span>                 <span style="color:#f92672">*</span>_freeres_buf;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xb8 */</span> <span style="color:#66d9ef">size_t</span>               __pad5;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xc0 */</span> <span style="color:#66d9ef">int</span>                  _mode;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xc4 */</span> <span style="color:#66d9ef">char</span>                 _unused2[<span style="color:#ae81ff">20</span>];
+</span></span></code></pre></div><p><code>_IO_FILE_plus</code> is just <code>_IO_FILE</code> struct with <code>vtable</code> field:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> _IO_FILE_complete
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x00 */</span> <span style="color:#66d9ef">char</span>                     <span style="color:#f92672">*</span>_flags;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x08 */</span> <span style="color:#66d9ef">char</span>                     <span style="color:#f92672">*</span>_IO_read_ptr;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x10 */</span> <span style="color:#66d9ef">char</span>                     <span style="color:#f92672">*</span>_IO_read_end;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x18 */</span> <span style="color:#66d9ef">char</span>                     <span style="color:#f92672">*</span>_IO_read_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x20 */</span> <span style="color:#66d9ef">char</span>                     <span style="color:#f92672">*</span>_IO_write_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x28 */</span> <span style="color:#66d9ef">char</span>                     <span style="color:#f92672">*</span>_IO_write_ptr;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x30 */</span> <span style="color:#66d9ef">char</span>                     <span style="color:#f92672">*</span>_IO_write_end;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x38 */</span> <span style="color:#66d9ef">char</span>                     <span style="color:#f92672">*</span>_IO_buf_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x40 */</span> <span style="color:#66d9ef">char</span>                     <span style="color:#f92672">*</span>_IO_buf_end;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x48 */</span> <span style="color:#66d9ef">char</span>                     <span style="color:#f92672">*</span>_IO_save_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x50 */</span> <span style="color:#66d9ef">char</span>                     <span style="color:#f92672">*</span>_IO_backup_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x58 */</span> <span style="color:#66d9ef">char</span>                     <span style="color:#f92672">*</span>_IO_save_end;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x60 */</span> <span style="color:#66d9ef">struct</span> _IO_marker        <span style="color:#f92672">*</span>_markers;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x68 */</span> <span style="color:#66d9ef">struct</span> _IO_FILE          <span style="color:#f92672">*</span>_chain;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x70 */</span> <span style="color:#66d9ef">int</span>                      _fileno;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x74 */</span> <span style="color:#66d9ef">int</span>                      _flags2;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x78 */</span> _off_t                   _old_offset;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x80 */</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">short</span>           _cur_column;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x82 */</span> <span style="color:#66d9ef">signed</span> <span style="color:#66d9ef">char</span>              _vtable_offset;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x83 */</span> <span style="color:#66d9ef">char</span>                     _shortbuf[<span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x88 */</span> _IO_lock_t               _lock;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x90 */</span> __off64_t                _offset;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x98 */</span> <span style="color:#66d9ef">struct</span> _IO_codecvt       _codecvt;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xa0 */</span> <span style="color:#66d9ef">struct</span> _IO_wide_data     _wide_data;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xa8 */</span> <span style="color:#66d9ef">struct</span> _IO_FILE          _freeres_list;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xb0 */</span> <span style="color:#66d9ef">void</span>                     <span style="color:#f92672">*</span>_freeres_buf;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xb8 */</span> <span style="color:#66d9ef">size_t</span>                   __pad5;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xc0 */</span> <span style="color:#66d9ef">int</span>                      _mode;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xc4 */</span> <span style="color:#66d9ef">char</span>                     _unused2[<span style="color:#ae81ff">20</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xd8 */</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">struct</span> _IO_jump_t  <span style="color:#f92672">*</span>vtable;
+</span></span></code></pre></div><p><code>_IO_wide_data</code> struct is for dealing with multi-byte file stream:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> _IO_wide_data
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x00 */</span>  <span style="color:#66d9ef">wchar_t</span>                   <span style="color:#f92672">*</span>_IO_read_ptr;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x08 */</span>  <span style="color:#66d9ef">wchar_t</span>                   <span style="color:#f92672">*</span>_IO_read_end;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x10 */</span>  <span style="color:#66d9ef">wchar_t</span>                   <span style="color:#f92672">*</span>_IO_read_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x18 */</span>  <span style="color:#66d9ef">wchar_t</span>                   <span style="color:#f92672">*</span>_IO_write_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x20 */</span>  <span style="color:#66d9ef">wchar_t</span>                   <span style="color:#f92672">*</span>_IO_write_ptr;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x28 */</span>  <span style="color:#66d9ef">wchar_t</span>                   <span style="color:#f92672">*</span>_IO_write_end;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x30 */</span>  <span style="color:#66d9ef">wchar_t</span>                   <span style="color:#f92672">*</span>_IO_buf_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x38 */</span>  <span style="color:#66d9ef">wchar_t</span>                   <span style="color:#f92672">*</span>_IO_buf_end;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x40 */</span>  <span style="color:#66d9ef">wchar_t</span>                   <span style="color:#f92672">*</span>_IO_save_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x48 */</span>  <span style="color:#66d9ef">wchar_t</span>                   <span style="color:#f92672">*</span>_IO_backup_base;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x50 */</span>  <span style="color:#66d9ef">wchar_t</span>                   <span style="color:#f92672">*</span>_IO_save_end;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x58 */</span>  __mbstate_t               _IO_state;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x60 */</span>  __mbstate_t               _IO_last_state;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0x68 */</span>  <span style="color:#66d9ef">struct</span> _IO_codecvt        _codecvt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xd8 */</span>  <span style="color:#66d9ef">wchar_t</span>                   _shortbuf[<span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 0xe0 */</span>  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">struct</span> _IO_jump_t   <span style="color:#f92672">*</span>_wide_vtable;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
+      </div>
+    </section>
+    <footer class="max-w-prose pt-8 print:hidden">
+      
+  <div class="flex">
+    
+    
+    
+      
+      
+        
+        
+
+
+
+
+
+
+
+
+  
+    <picture
+      class="!mb-0 !mt-0 me-4 w-24 h-auto rounded-full"
+      
+    >
+      
+      
+      
+      
+      <img
+        width="1080"
+        height="1080"
+        class="!mb-0 !mt-0 me-4 w-24 h-auto rounded-full"
+        alt="Griffin Sectio"
+        loading="lazy" decoding="async"
+        
+          src="//localhost:1313/img/author_hu_e3b4f002aaa01b9f.jpg" srcset="//localhost:1313/img/author_hu_3943c635ee7ddd8f.jpg 330w,//localhost:1313/img/author_hu_e3b4f002aaa01b9f.jpg 660w
+          
+            ,//localhost:1313/img/author_hu_d6332df19e9b1201.jpg 1024w
+          
+          
+            ,//localhost:1313/img/author.jpg 1080w
+          "
+          sizes="100vw"
+        
+      />
+    </picture>
+  
+
+
+      
+    
+    <div class="place-self-center">
+      
+        <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+          Author
+        </div>
+        <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+          Griffin Sectio
+        </div>
+      
+      
+        <div class="text-sm text-neutral-700 dark:text-neutral-400">A software engineer particularly interested in low-level programming and cybersecurity</div>
+      
+      <div class="text-2xl sm:text-lg">
+</div>
+    </div>
+  </div>
+
+
+      
+
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="group flex" href="//localhost:1313/notes/fsop/fsop/">
+              <span
+                class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&larr;</span
+                ><span class="ltr:hidden rtl:inline">&rarr;</span></span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >FSOP</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2026-02-10 01:01:22 &#43;0700 &#43;07">10 February 2026</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+      </main>
+      
+        <div
+          class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12"
+          id="to-top"
+          hidden="true"
+        >
+          <a
+            href="#the-top"
+            class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+            aria-label="Scroll to top"
+            title="Scroll to top"
+          >
+            &uarr;
+          </a>
+        </div>
+      <footer class="py-10 print:hidden">
+  
+  
+  <div class="flex items-center justify-between">
+    <div>
+      
+      
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            &copy;
+            2026
+            Griffin Sectio
+        </p>
+      
+      
+      
+        <p class="text-xs text-neutral-500 dark:text-neutral-400">
+          
+          
+          Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://github.com/jpanther/congo" target="_blank" rel="noopener noreferrer">Congo</a>
+        </p>
+      
+    </div>
+    <div class="flex flex-row items-center">
+      
+      
+      
+      
+    </div>
+  </div>
+  
+  
+</footer>
+
+    </div>
+  </body>
+</html>

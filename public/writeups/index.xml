@@ -6,8 +6,15 @@
     <description>Recent content in Writeups on Griffin&#39;s notebook</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 26 Nov 2025 02:51:39 +0700</lastBuildDate>
+    <lastBuildDate>Fri, 20 Feb 2026 02:58:03 +0700</lastBuildDate>
     <atom:link href="//localhost:1313/writeups/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Level20</title>
+      <link>//localhost:1313/writeups/pwncollege/fsop/level20/</link>
+      <pubDate>Fri, 20 Feb 2026 02:58:03 +0700</pubDate>
+      <guid>//localhost:1313/writeups/pwncollege/fsop/level20/</guid>
+      <description>&lt;p&gt;The binary given for this challenge is very similar as for level 19. The following is the &lt;code&gt;checksec&lt;/code&gt; test for it:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;┌&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;s3cryph@arch&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;-&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;~/pwncollege/fsop/level20&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;└&amp;gt; checksec --file babyfile_level20&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;*&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/home/s3cryph/pwncollege/fsop/level20/babyfile_level20&amp;#39;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Arch:       amd64-64-little&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    RELRO:      Full RELRO&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Stack:      Canary found&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    NX:         NX enabled&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    PIE:        No PIE &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;0x400000&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    SHSTK:      Enabled&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    IBT:        Enabled&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Stripped:   No&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Again this binary has no PIE enabled and anything else enabled.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Test Writeup</title>
       <link>//localhost:1313/writeups/test-writeup/</link>
